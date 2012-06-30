@@ -17,6 +17,7 @@
 
 @implementation CalculatorViewController
 @synthesize display;
+@synthesize sentToBrain;
 @synthesize userIsInTheMiddleOfEnteringANumber;
 @synthesize userHasAlreadyPressedDecimalPoint;
 @synthesize brain = _brain;
@@ -58,6 +59,11 @@
 - (IBAction)enterPressed
 {
     [self.brain pushOperand:[self.display.text doubleValue]];
+    
+    // append value followed by space to label of all entries
+    self.sentToBrain.text = [NSString stringWithFormat:@"%@%@%@", \
+                             self.sentToBrain.text, self.display.text, @" "];
+    
     self.userIsInTheMiddleOfEnteringANumber = NO;
     self.userHasAlreadyPressedDecimalPoint = NO;
 }
@@ -69,6 +75,11 @@
     }
     
     NSString *operation = sender.currentTitle;
+    
+    // append operation followed by space to label of all entries
+    self.sentToBrain.text = [NSString stringWithFormat:@"%@%@%@", \
+                             self.sentToBrain.text, operation, @" "];
+    
     double result = [self.brain performOperation:operation];
     self.display.text = [NSString stringWithFormat:@"%g", result];
 }
