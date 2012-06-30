@@ -28,7 +28,7 @@
 - (IBAction)digitPressed:(UIButton *)sender {
     NSString *digit = sender.currentTitle;
     
-    NSLog(@"user touched %@", digit);       // DEBUG PRINT
+    //NSLog(@"user touched %@", digit);       // DEBUG PRINT
     
     if (self.userIsInTheMiddleOfEnteringANumber) {
         self.display.text = [self.display.text stringByAppendingString:digit];
