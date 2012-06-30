@@ -43,15 +43,34 @@
     
     // perform operation and store answer in result
     if ([operation isEqualToString:@"+"]) {
+        // add
         result = [self popOperand] + [self popOperand];
-    } else if ([operation isEqualToString:@"*"]) {
+    } else if ([operation isEqualToString:@"X"]) {
+        // multiply
         result = [self popOperand] * [self popOperand];
     } else if ([operation isEqualToString:@"-"]) {
+        // subtract
         double subtrahend = [self popOperand];
         result = [self popOperand] - subtrahend;
-    } else if ([operation isEqualToString:@"/"]) {
+    } else if ([operation isEqualToString:@"÷"]) {
+        // divide
         double divisor = [self popOperand];
         if (divisor) result = [self popOperand] / divisor;
+    } else if ([operation isEqualToString:@"sin"]) {
+        // sine
+        result = sin([self popOperand]);
+        
+    } else if ([operation isEqualToString:@"cos"]) {
+        // cosine
+        result = cos([self popOperand]);
+    
+    } else if ([operation isEqualToString:@"√"]) {
+        // square root
+        result = sqrt([self popOperand]);
+        
+    } else if ([operation isEqualToString:@"π"]) {
+        // pi
+        result = M_PI;
     }
     
     [self pushOperand:result];
