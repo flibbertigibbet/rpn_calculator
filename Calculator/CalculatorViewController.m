@@ -11,12 +11,14 @@
 
 @interface CalculatorViewController ()
 @property (nonatomic) BOOL userIsInTheMiddleOfEnteringANumber;
+@property (nonatomic) BOOL userHasAlreadyPressedDecimalPoint;
 @property (nonatomic, strong) CalculatorBrain *brain;
 @end
 
 @implementation CalculatorViewController
 @synthesize display;
 @synthesize userIsInTheMiddleOfEnteringANumber;
+@synthesize userHasAlreadyPressedDecimalPoint;
 @synthesize brain = _brain;
 
 - (CalculatorBrain *)brain
@@ -25,7 +27,8 @@
     return _brain;
 }
 
-- (IBAction)digitPressed:(UIButton *)sender {
+- (IBAction)digitPressed:(UIButton *)sender 
+{
     NSString *digit = sender.currentTitle;
     
     //NSLog(@"user touched %@", digit);       // DEBUG PRINT
@@ -37,10 +40,26 @@
         self.userIsInTheMiddleOfEnteringANumber = YES;
     }
 }
+
+- (IBAction)decimalPointPressed {
+    if (!self.userHasAlreadyPressedDecimalPoint) {
+        if (self.userIsInTheMiddleOfEnteringANumber) {
+            self.display.text = \
+            [self.display.text stringByAppendingString:@"."];
+        } else {
+            // in case the decimal point is first 
+            self.display.text = @"0.";
+            self.userIsInTheMiddleOfEnteringANumber = YES;
+        }
+        self.userHasAlreadyPressedDecimalPoint = YES;
+    }
+}
+
 - (IBAction)enterPressed
 {
     [self.brain pushOperand:[self.display.text doubleValue]];
     self.userIsInTheMiddleOfEnteringANumber = NO;
+    self.userHasAlreadyPressedDecimalPoint = NO;
 }
 
 - (IBAction)operationPressed:(UIButton *)sender
