@@ -16,10 +16,12 @@
 @end
 
 @implementation CalculatorViewController
-@synthesize display;
-@synthesize sentToBrain;
-@synthesize userIsInTheMiddleOfEnteringANumber;
-@synthesize userHasAlreadyPressedDecimalPoint;
+@synthesize display = _display;
+@synthesize sentToBrain = _sentToBrain;
+@synthesize userIsInTheMiddleOfEnteringANumber = \
+        _userIsInTheMiddleOfEnteringANumber;
+@synthesize userHasAlreadyPressedDecimalPoint = \
+        _userHasAlreadyPressedDecimalPoint;
 @synthesize brain = _brain;
 
 - (CalculatorBrain *)brain
