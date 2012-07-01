@@ -34,8 +34,6 @@
 {
     NSString *digit = sender.currentTitle;
     
-    //NSLog(@"user touched %@", digit);       // DEBUG PRINT
-    
     if (self.userIsInTheMiddleOfEnteringANumber) {
         self.display.text = [self.display.text stringByAppendingString:digit];
     } else {
@@ -44,7 +42,8 @@
     }
 }
 
-- (IBAction)decimalPointPressed {
+- (IBAction)decimalPointPressed 
+{
     if (!self.userHasAlreadyPressedDecimalPoint) {
         if (self.userIsInTheMiddleOfEnteringANumber) {
             self.display.text = \
@@ -91,4 +90,5 @@
     self.display.text = @"0";
     self.sentToBrain.text = @"";
 }
+
 @end
