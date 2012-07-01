@@ -37,8 +37,8 @@
     return [operandObject doubleValue];
 }
 
-- (double) performOperation:(NSString *)operation {
-    
+- (double) performOperation:(NSString *)operation 
+{    
     double result = 0;
     
     // perform operation and store answer in result
@@ -76,6 +76,12 @@
     [self pushOperand:result];
     
     return result;
+}
+
+- (void) clear
+{
+    // empty stack
+    _operandStack = nil;
 }
 
 @end

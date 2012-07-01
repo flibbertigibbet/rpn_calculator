@@ -86,4 +86,9 @@
     self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 
+- (IBAction)clearPressed {
+    [self.brain clear]; // empty stack in model
+    self.display.text = @"0";
+    self.sentToBrain.text = @"";
+}
 @end
