@@ -16,29 +16,25 @@
 
 @synthesize operandStack = _operandStack;
 
-- (NSMutableArray *)operandStack 
-{
+- (NSMutableArray *)operandStack {
     if (!_operandStack) {
         _operandStack = [[NSMutableArray alloc] init];
     }
     return _operandStack;
 }
 
-- (void) pushOperand:(double)operand 
-{
+- (void) pushOperand:(double)operand {
     NSNumber *operandObject = [NSNumber numberWithDouble:operand];
     [self.operandStack addObject:operandObject];
 }
 
-- (double) popOperand 
-{
+- (double) popOperand {
     NSNumber *operandObject = [self.operandStack lastObject];
     if (operandObject) [self.operandStack removeLastObject];
     return [operandObject doubleValue];
 }
 
-- (double) performOperation:(NSString *)operation 
-{    
+- (double) performOperation:(NSString *)operation {    
     double result = 0;
     
     // perform operation and store answer in result

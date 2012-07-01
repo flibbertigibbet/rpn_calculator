@@ -24,14 +24,12 @@
         _userHasAlreadyPressedDecimalPoint;
 @synthesize brain = _brain;
 
-- (CalculatorBrain *)brain
-{
+- (CalculatorBrain *)brain {
     if (!_brain) _brain = [[CalculatorBrain alloc] init];
     return _brain;
 }
 
-- (IBAction)digitPressed:(UIButton *)sender 
-{
+- (IBAction)digitPressed:(UIButton *)sender {
     NSString *digit = sender.currentTitle;
     
     if (self.userIsInTheMiddleOfEnteringANumber) {
@@ -42,8 +40,7 @@
     }
 }
 
-- (IBAction)decimalPointPressed 
-{
+- (IBAction)decimalPointPressed {
     if (!self.userHasAlreadyPressedDecimalPoint) {
         if (self.userIsInTheMiddleOfEnteringANumber) {
             self.display.text = \
@@ -57,8 +54,11 @@
     }
 }
 
-- (IBAction)enterPressed
-{
+- (IBAction)backspacePressed {
+    //TODO:
+}
+
+- (IBAction)enterPressed {
     [self.brain pushOperand:[self.display.text doubleValue]];
     
     // append value followed by space to label of all entries
@@ -69,8 +69,7 @@
     self.userHasAlreadyPressedDecimalPoint = NO;
 }
 
-- (IBAction)operationPressed:(UIButton *)sender
-{
+- (IBAction)operationPressed:(UIButton *)sender {
     if (self.userIsInTheMiddleOfEnteringANumber) {
         [self enterPressed];
     }
