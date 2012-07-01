@@ -73,8 +73,12 @@
         result = M_PI;
     }
     
-    [self pushOperand:result];
+    // protect against propogating NaN by changing NaN results to zero
+    if (isnan(result)) {
+        result = 0;
+    }
     
+    [self pushOperand:result];
     return result;
 }
 
