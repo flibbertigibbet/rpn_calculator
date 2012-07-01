@@ -83,9 +83,9 @@
     
     NSString *operation = sender.currentTitle;
     
-    // append operation followed by space to label of all entries
+    // append operation followed by " = " to label of all entries
     _sentToBrain.text = [NSString stringWithFormat:@"%@%@%@", \
-                             _sentToBrain.text, operation, @" "];
+                             _sentToBrain.text, operation, @" = "];
     
     double result = [self.brain performOperation:operation];
     _display.text = [NSString stringWithFormat:@"%g", result];
