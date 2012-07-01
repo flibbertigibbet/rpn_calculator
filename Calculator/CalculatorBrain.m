@@ -45,7 +45,7 @@
     if ([operation isEqualToString:@"+"]) {
         // add
         result = [self popOperand] + [self popOperand];
-    } else if ([operation isEqualToString:@"X"]) {
+    } else if ([operation isEqualToString:@"×"]) {
         // multiply
         result = [self popOperand] * [self popOperand];
     } else if ([operation isEqualToString:@"-"]) {
