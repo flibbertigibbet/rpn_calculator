@@ -80,8 +80,7 @@
     [self.brain pushOperand:[_display.text doubleValue]];
     
     // append value followed by space to label of all entries
-    _sentToBrain.text = [NSString stringWithFormat:@"%@%@%@", \
-                             _sentToBrain.text, _display.text, @" "];
+    [self appendToHistory:_display.text:NO];
     
     _userIsInTheMiddleOfEnteringANumber = NO;
     self.userHasAlreadyPressedDecimalPoint = NO;
@@ -94,9 +93,8 @@
     
     NSString *operation = sender.currentTitle;
     
-    // append operation followed by " = " to label of all entries
-    _sentToBrain.text = [NSString stringWithFormat:@"%@%@%@", \
-                             _sentToBrain.text, operation, @" = "];
+    // append operation followed by " =" to label of all entries
+    [self appendToHistory:operation:YES];
     
     double result = [self.brain performOperation:operation];
     _display.text = [NSString stringWithFormat:@"%g", result];
@@ -106,6 +104,33 @@
     [self.brain clear]; // empty stack in model
     _display.text = @"0";
     _sentToBrain.text = @"";
+}
+
+- (void)appendToHistory:(NSString *)value:(BOOL)isOperation {
+    // append value to sentToBrain label
+    // put = at end of label, if value is an operation
+    NSString *history = _sentToBrain.text;
+    int histlen = [history length];
+    
+    // shave off = from current label value, if there
+    if (histlen > 0) {
+        if ([[history substringFromIndex:histlen - 1] \
+            isEqualToString:@"="]) {
+            
+            history = [history substringToIndex:histlen - 1];
+        }
+    }
+    
+    if (isOperation) {
+        history = [NSString stringWithFormat:@"%@%@%@", history,
+                   value, @" ="];
+    } else {
+    history = [NSString stringWithFormat:@"%@%@%@", history,
+               value, @" "];
+    }
+    
+    // display new history
+    _sentToBrain.text = history;
 }
 
 @end
