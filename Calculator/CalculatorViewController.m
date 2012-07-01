@@ -65,6 +65,17 @@
     }
 }
 
+- (IBAction)plusMinusPressed {
+    // switch sign on display
+    _display.text = [NSString stringWithFormat:@"%g", 
+                     -[_display.text doubleValue]];
+    
+    // if user not currently entering a number, enter value
+    if (!_userIsInTheMiddleOfEnteringANumber) {
+        [self enterPressed];
+    }
+}
+
 - (IBAction)enterPressed {
     [self.brain pushOperand:[_display.text doubleValue]];
     
