@@ -81,7 +81,7 @@
 - (void) clear
 {
     // empty stack
-    self.operandStack = nil;
+    [self.operandStack removeAllObjects];
 }
 
 @end
