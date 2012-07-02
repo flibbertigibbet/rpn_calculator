@@ -32,23 +32,23 @@
 - (IBAction)digitPressed:(UIButton *)sender {
     NSString *digit = sender.currentTitle;
     
-    if (_userIsInTheMiddleOfEnteringANumber) {
-        _display.text = [_display.text stringByAppendingString:digit];
+    if (self.userIsInTheMiddleOfEnteringANumber) {
+        self.display.text = [self.display.text stringByAppendingString:digit];
     } else {
-        _display.text = digit;
-        _userIsInTheMiddleOfEnteringANumber = YES;
+        self.display.text = digit;
+        self.userIsInTheMiddleOfEnteringANumber = YES;
     }
 }
 
 - (IBAction)decimalPointPressed {
     if (!self.userHasAlreadyPressedDecimalPoint) {
-        if (_userIsInTheMiddleOfEnteringANumber) {
-            _display.text = \
-            [_display.text stringByAppendingString:@"."];
+        if (self.userIsInTheMiddleOfEnteringANumber) {
+            self.display.text = \
+            [self.display.text stringByAppendingString:@"."];
         } else {
             // in case the decimal point is first 
-            _display.text = @"0.";
-            _userIsInTheMiddleOfEnteringANumber = YES;
+            self.display.text = @"0.";
+            self.userIsInTheMiddleOfEnteringANumber = YES;
         }
         self.userHasAlreadyPressedDecimalPoint = YES;
     }
@@ -56,38 +56,38 @@
 
 - (IBAction)backspacePressed {
     // remove last digit entered from display
-    _display.text = \
-    [_display.text substringToIndex:[_display.text length] - 1];
+    self.display.text = \
+    [self.display.text substringToIndex:[self.display.text length] - 1];
     
-    if (![_display.text length]) {
+    if (![self.display.text length]) {
         // display a zero if no digits left to display
-        _display.text = @"0";
+        self.display.text = @"0";
     }
 }
 
 - (IBAction)plusMinusPressed {
     // switch sign on display
-    _display.text = [NSString stringWithFormat:@"%g", 
-                     -[_display.text doubleValue]];
+    self.display.text = [NSString stringWithFormat:@"%g", 
+                     -[self.display.text doubleValue]];
     
     // if user not currently entering a number, enter value
-    if (!_userIsInTheMiddleOfEnteringANumber) {
+    if (!self.userIsInTheMiddleOfEnteringANumber) {
         [self enterPressed];
     }
 }
 
 - (IBAction)enterPressed {
-    [self.brain pushOperand:[_display.text doubleValue]];
+    [self.brain pushOperand:[self.display.text doubleValue]];
     
     // append value followed by space to label of all entries
-    [self appendToHistory:_display.text:NO];
+    [self appendToHistory:self.display.text:NO];
     
-    _userIsInTheMiddleOfEnteringANumber = NO;
+    self.userIsInTheMiddleOfEnteringANumber = NO;
     self.userHasAlreadyPressedDecimalPoint = NO;
 }
 
 - (IBAction)operationPressed:(UIButton *)sender {
-    if (_userIsInTheMiddleOfEnteringANumber) {
+    if (self.userIsInTheMiddleOfEnteringANumber) {
         [self enterPressed];
     }
     
@@ -97,19 +97,19 @@
     [self appendToHistory:operation:YES];
     
     double result = [self.brain performOperation:operation];
-    _display.text = [NSString stringWithFormat:@"%g", result];
+    self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 
 - (IBAction)clearPressed {
     [self.brain clear]; // empty stack in model
-    _display.text = @"0";
-    _sentToBrain.text = @"";
+    self.display.text = @"0";
+    self.sentToBrain.text = @"";
 }
 
 - (void)appendToHistory:(NSString *)value:(BOOL)isOperation {
     // append value to sentToBrain label
     // put = at end of label, if value is an operation
-    NSString *history = _sentToBrain.text;
+    NSString *history = self.sentToBrain.text;
     int histlen = [history length];
     
     // shave off = from current label value, if there
@@ -130,7 +130,7 @@
     }
     
     // display new history
-    _sentToBrain.text = history;
+    self.sentToBrain.text = history;
 }
 
 @end

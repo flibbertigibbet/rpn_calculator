@@ -81,7 +81,7 @@
 - (void) clear
 {
     // empty stack
-    _operandStack = nil;
+    self.operandStack = nil;
 }
 
 @end
