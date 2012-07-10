@@ -30,9 +30,15 @@
 
 + (NSString *)descriptionOfProgram:(id)program
 {
+    // TODO:
     return @"Implement this in Homework #2";
 }
 
+- (void) pushVariableOperand:(NSString *)var {
+    //TODO:
+    // accept variables as operands
+    
+}
 
 - (void) pushOperand:(double)operand {
     [self.programStack addObject:[NSNumber numberWithDouble:operand]];
@@ -106,6 +112,19 @@
 - (void) clear
 {
     [self.programStack removeAllObjects];
+}
+
++ (double)runProgram:(id)program
+ usingVariableValues:(NSDictionary *)variableValues
+{
+    //TODO:
+    return 0;
+}
+
++ (NSSet *)variablesUsedInProgram:(id)program
+{
+    //TODO:
+    return nil;
 }
 
 + (double)runProgram:(id)program
