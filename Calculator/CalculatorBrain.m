@@ -9,28 +9,28 @@
 #import "CalculatorBrain.h"
 
 @interface CalculatorBrain()
-@property (nonatomic, strong) NSMutableArray *operandStack;
+@property (nonatomic, strong) NSMutableArray *programStack;
 @end
 
 @implementation CalculatorBrain
 
-@synthesize operandStack = _operandStack;
+@synthesize programStack = _programStack;
 
-- (NSMutableArray *)operandStack {
-    if (!_operandStack) {
-        _operandStack = [[NSMutableArray alloc] init];
+- (NSMutableArray *)programStack {
+    if (!_programStack) {
+        _programStack = [[NSMutableArray alloc] init];
     }
-    return _operandStack;
+    return _programStack;
 }
 
 - (void) pushOperand:(double)operand {
     NSNumber *operandObject = [NSNumber numberWithDouble:operand];
-    [self.operandStack addObject:operandObject];
+    [self.programStack addObject:operandObject];
 }
 
 - (double) popOperand {
-    NSNumber *operandObject = [self.operandStack lastObject];
-    if (operandObject) [self.operandStack removeLastObject];
+    NSNumber *operandObject = [self.programStack lastObject];
+    if (operandObject) [self.programStack removeLastObject];
     return [operandObject doubleValue];
 }
 
@@ -81,7 +81,7 @@
 - (void) clear
 {
     // empty stack
-    [self.operandStack removeAllObjects];
+    [self.programStack removeAllObjects];
 }
 
 @end
