@@ -34,7 +34,6 @@
     if ([program isKindOfClass:[NSArray class]]) stack = [program mutableCopy];
     while (stack.count) [statements addObject:[self descriptionOfTopOfStack:stack]];
     desc = [statements componentsJoinedByString:@", "];
-    NSLog(desc);
     return desc;
 }
 
@@ -42,10 +41,13 @@
     NSString *desc = @"0";
     int numops;
     id holdArg;
+    id thisArg;
+    bool wrap = true;
     id obj = [stack lastObject];
     if (obj) [stack removeLastObject];
         
     if ([obj isKindOfClass:[NSNumber class]]) {
+        wrap = false;
         desc = [NSString stringWithFormat:@"%g", [obj doubleValue]];
     } else if ([obj isKindOfClass:[NSString class]]) {
         if ([[self class] isOperation:obj]) {
@@ -53,13 +55,18 @@
             
             switch (numops) {
                 case 1:
+                    wrap = false;
+                    thisArg = [self descriptionOfTopOfStack:stack];
                     desc = [NSString stringWithFormat:@"%@%@%@%@", obj, @"(",
-                            [self descriptionOfTopOfStack:stack], @")"];
+                        thisArg, @")"];
                     break;
                 case 2:
                     holdArg = [self descriptionOfTopOfStack:stack];
-                    desc = [NSString stringWithFormat:@"%@%@%@",
-                            [self descriptionOfTopOfStack:stack], obj, holdArg];
+                    //if ([obj isEqual:@"×"] || [obj isEqual:@"÷"]) wrap = false;
+                                               
+                   desc = [NSString stringWithFormat:@"%@%@%@",
+                           [self descriptionOfTopOfStack:stack], 
+                           obj, holdArg];
                     break;
                 case 0:
                     desc = obj;
@@ -69,9 +76,12 @@
                     break;
             }
         } else {
+            wrap = false;
             desc = obj; // a variable
         }
     }
+    
+    if (wrap) desc = [NSString stringWithFormat:@"%@%@%@", @"(", desc, @")"];
     return desc;
 }
 
