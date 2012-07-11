@@ -13,6 +13,7 @@
 @property (nonatomic) BOOL inTheMiddleOfEnteringANumber;
 @property (nonatomic) BOOL alreadyPressedDecimalPoint;
 @property (nonatomic, strong) CalculatorBrain *brain;
+@property (nonatomic) NSMutableDictionary *enteredVariables;
 @end
 
 @implementation CalculatorViewController
@@ -21,15 +22,60 @@
 @synthesize inTheMiddleOfEnteringANumber = _inTheMiddleOfEnteringANumber;
 @synthesize alreadyPressedDecimalPoint = _alreadyPressedDecimalPoint;
 @synthesize brain = _brain;
+@synthesize enteredVariables = _enteredVariables;
+
+-(NSDictionary *)enteredVariables {
+    if (!_enteredVariables) {
+        _enteredVariables = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+            [NSNumber numberWithDouble: 0.0], @"x", 
+            [NSNumber numberWithDouble: 0.0], @"y", 
+            [NSNumber numberWithDouble: 0.0], @"z",
+            nil];
+    }
+    return _enteredVariables;
+}
 
 - (CalculatorBrain *)brain {
     if (!_brain) _brain = [[CalculatorBrain alloc] init];
     return _brain;
 }
+-(void)setVariable:(NSString *)varName:(double)toValue {
+    if (toValue) [self.enteredVariables setValue:
+                  [NSNumber numberWithDouble:toValue] forKey:varName];
+}
+
+- (IBAction)testNilPressed {
+    self.enteredVariables = nil;
+}
+
+- (IBAction)test2Pressed {
+    [self setVariable:@"x" : 6];
+    [self setVariable:@"y" : 4];
+    [self setVariable:@"z" : 4636.39];
+}
+
+- (IBAction)test3Pressed {
+    [self setVariable:@"x" : 0.6666666];
+    [self setVariable:@"y" : 1];
+    [self setVariable:@"z" : -0.00000000001];
+}
+
+- (IBAction)variablePressed:(UIButton *)sender {
+    if (self.inTheMiddleOfEnteringANumber) [self enterPressed];
+    [self.brain pushVariableOperand:sender.currentTitle];
+    id myval = [self.enteredVariables valueForKey:sender.currentTitle];
+    if (myval) {
+        self.display.text = [NSString  stringWithFormat:@"%@",myval];
+    } else {
+        self.display.text = @"0"; 
+    }
+    [self refreshHistory];
+    self.inTheMiddleOfEnteringANumber = NO;
+    self.alreadyPressedDecimalPoint = NO;
+}
 
 - (IBAction)digitPressed:(UIButton *)sender {
     NSString *digit = sender.currentTitle;
-    
     if (self.inTheMiddleOfEnteringANumber) {
         self.display.text = [self.display.text stringByAppendingString:digit];
     } else {
@@ -53,15 +99,14 @@
 }
 
 - (IBAction)backspacePressed {
-    // remove last digit entered from display
     self.display.text = \
     [self.display.text substringToIndex:[self.display.text length] - 1];
     
     if (![self.display.text length]) {
-        // TODO: change to show results of current program
-        // TODO: update brain's history
-        self.display.text = @"0";
-        //self.display.text = [self.brain
+        self.inTheMiddleOfEnteringANumber = NO;
+        self.alreadyPressedDecimalPoint = NO;
+        self.display.text = [NSString stringWithFormat:@"%g", [[self.brain class] runProgram:[self.brain program] usingVariableValues:[self.enteredVariables copy]]];
+        [self refreshHistory];
     }
 }
 
@@ -69,38 +114,21 @@
     // switch sign on display
     self.display.text = [NSString stringWithFormat:@"%g", 
                      -[self.display.text doubleValue]];
-    
-    // if user not currently entering a number, enter value
-    if (!self.inTheMiddleOfEnteringANumber) {
-        [self enterPressed];
-    }
+    if (!self.inTheMiddleOfEnteringANumber) [self enterPressed];
 }
 
 - (IBAction)enterPressed {
     [self.brain pushOperand:[self.display.text doubleValue]];
-    
-    // append value followed by space to label of all entries
     [self refreshHistory];
-    
     self.inTheMiddleOfEnteringANumber = NO;
     self.alreadyPressedDecimalPoint = NO;
 }
 
 - (IBAction)operationPressed:(UIButton *)sender {
-    
-    if (self.inTheMiddleOfEnteringANumber) {
-        [self enterPressed];
-    }
-    
+    if (self.inTheMiddleOfEnteringANumber) [self enterPressed];
     NSString *operation = sender.currentTitle;  
-    
-    double result = [self.brain performOperation:operation];
-    self.display.text = [NSString stringWithFormat:@"%g", result];
+    self.display.text = [NSString stringWithFormat:@"%g", [self.brain performOperation:operation usingVars:[self.enteredVariables copy]]];
     [self refreshHistory];
-    
-    // append operation followed by " =" to label of all entries
-    // [self appendToHistory:operation];
-
 }
 
 - (IBAction)clearPressed {
@@ -110,7 +138,8 @@
 }
 
 - (void)refreshHistory {
-    NSString *history = [[self.brain class] descriptionOfProgram:[self.brain program]];
+    NSString *history = [[self.brain class] 
+                         descriptionOfProgram:[self.brain program]];
     self.sentToBrain.text = history;
 }
 

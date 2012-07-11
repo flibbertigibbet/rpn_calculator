@@ -69,6 +69,7 @@
                            obj, holdArg];
                     break;
                 case 0:
+                    wrap = false;
                     desc = obj;
                     break;
                 default:
@@ -86,7 +87,6 @@
 }
 
 +(int)numberOfOperands:(NSString *)opName {
-    //NSArray *noOperands = [[NSArray alloc] initWithObjects:@"π", nil];
     NSArray *oneOperand = [[NSArray alloc] initWithObjects:@"sin", @"cos", 
         @"√", nil];
     NSArray *twoOperands = [[NSArray alloc] initWithObjects:@"+", @"-",
@@ -111,9 +111,9 @@
     [self.programStack addObject:[NSNumber numberWithDouble:operand]];
 }
 
-- (double)performOperation:(NSString *)operation {
+- (double)performOperation:(NSString *)operation usingVars:(NSDictionary *)withVals {
     [self.programStack addObject:operation];
-    return [[self class] runProgram:self.program];
+    return [[self class] runProgram:self.program usingVariableValues:withVals];
 }
 
 - (void)clearStack {
@@ -159,22 +159,24 @@
 }
 
 + (BOOL)isOperation:(NSString *)myOp {
-    return [[NSSet setWithObjects:@"+", @"×", @"-", @"÷", @"sin", @"cos", 
-             @"√", @"π", nil] containsObject:myOp];
+    return [[NSSet setWithObjects:@"+", @"×", @"-", @"÷", @"sin", @"cos", @"√", @"π", nil] containsObject:myOp];
 }
 
 + (double)runProgram:(id)program usingVariableValues:(NSDictionary *)vars {
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]) stack = [program mutableCopy];
-    
     NSSet *myVars = [self variablesUsedInProgram:stack];
-    id newVal;
-        
-    for (id item in stack) {
+    id newVal = [NSNumber numberWithDouble:0.0];
+    
+    for (int i=0; i<[stack count]; i++) {
+    //for (id item in stack) {
+        id item = [stack objectAtIndex:i];
         if ([myVars member:item]) {
             NSUInteger myOffset = [stack indexOfObject:item];
             newVal = [vars objectForKey:item];
-            if (!newVal || ![newVal isKindOfClass:[NSNumber class]]) newVal = 0;
+            if (!newVal || ![newVal isKindOfClass:[NSNumber class]]) {
+                newVal = [NSNumber numberWithDouble:0.0];
+            }
             [stack replaceObjectAtIndex:myOffset withObject:newVal];
         }
     }

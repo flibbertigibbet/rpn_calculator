@@ -12,7 +12,7 @@
 
 - (void)pushOperand:(double)operand;
 - (void)pushVariableOperand:(NSString *)var;
-- (double)performOperation:(NSString *)op;
+- (double)performOperation:(NSString *)op usingVars:(NSDictionary *)vars;
 - (void)clearStack;
 
 @property (nonatomic, readonly) id program;
