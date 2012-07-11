@@ -23,41 +23,42 @@
     return _programStack;
 }
 
-- (id)program
-{
+- (id)program {
     return [self.programStack copy];
 }
 
-+ (NSString *)descriptionOfProgram:(id)program
-{
++ (NSString *)descriptionOfProgram:(id)program {
     // TODO:
     return @"Implement this in Homework #2";
 }
 
-- (void) pushVariableOperand:(NSString *)var {
-    //TODO:
-    // accept variables as operands
-    
+- (void)pushVariableOperand:(NSString *)var {
+    if (![[self class] isOperation:var]) {
+        [self.programStack addObject:var];
+    }
 }
 
 - (void) pushOperand:(double)operand {
     [self.programStack addObject:[NSNumber numberWithDouble:operand]];
 }
 
-- (double) popOperand {
+- (double)popOperand {
     NSNumber *operandObject = [self.programStack lastObject];
     if (operandObject) [self.programStack removeLastObject];
     return [operandObject doubleValue];
 }
 
-- (double)performOperation:(NSString *)operation
-{
+- (double)performOperation:(NSString *)operation {
     [self.programStack addObject:operation];
     return [[self class] runProgram:self.program];
 }
 
-+ (double)popOperandOffProgramStack:(NSMutableArray *)stack
-{
+- (void)clearStack {
+    [self.programStack removeAllObjects];
+}
+
+
++ (double)popOperandOffProgramStack:(NSMutableArray *)stack {
     double result = 0;
     id topOfStack = [stack lastObject];
     if (topOfStack) [stack removeLastObject];
@@ -69,35 +70,27 @@
     else if ([topOfStack isKindOfClass:[NSString class]])
     {
         NSString *operation = topOfStack;
-    
+        
         if ([operation isEqualToString:@"+"]) {
-            // add
             result = [self popOperandOffProgramStack:stack] + [self popOperandOffProgramStack:stack];
         } else if ([operation isEqualToString:@"×"]) {
-            // multiply
             result = [self popOperandOffProgramStack:stack] * [self popOperandOffProgramStack:stack];
         } else if ([operation isEqualToString:@"-"]) {
-            // subtract
             double subtrahend = [self popOperandOffProgramStack:stack];
             result = [self popOperandOffProgramStack:stack] - subtrahend;
         } else if ([operation isEqualToString:@"÷"]) {
-            // divide
             double divisor = [self popOperandOffProgramStack:stack];
             if (divisor) result = [self popOperandOffProgramStack:stack] / divisor;
         } else if ([operation isEqualToString:@"sin"]) {
-            // sine
             result = sin([self popOperandOffProgramStack:stack]);
             
         } else if ([operation isEqualToString:@"cos"]) {
-            // cosine
             result = cos([self popOperandOffProgramStack:stack]);
             
         } else if ([operation isEqualToString:@"√"]) {
-            // square root
             result = sqrt([self popOperandOffProgramStack:stack]);
             
         } else if ([operation isEqualToString:@"π"]) {
-            // pi
             result = M_PI;
         }
     }
@@ -109,31 +102,58 @@
     return result;
 }
 
-- (void) clear
-{
-    [self.programStack removeAllObjects];
++ (BOOL)isOperation:(NSString *)myOp {
+    return [[NSSet setWithObjects:@"+", @"×", @"-", @"÷", @"sin", @"cos", 
+             @"√", @"π", nil] containsObject:myOp];
 }
 
 + (double)runProgram:(id)program
- usingVariableValues:(NSDictionary *)variableValues
-{
-    //TODO:
-    return 0;
-}
-
-+ (NSSet *)variablesUsedInProgram:(id)program
-{
-    //TODO:
-    return nil;
-}
-
-+ (double)runProgram:(id)program
-{
+ usingVariableValues:(NSDictionary *)variableValues {
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]) {
         stack = [program mutableCopy];
     }
+    
+    NSSet *myVars = [self variablesUsedInProgram:stack];
+    id newVal;
+        
+    for (id item in stack) {
+        if ([myVars member:item]) {
+            NSUInteger myOffset = [stack indexOfObject:item];
+            newVal = [variableValues objectForKey:item];
+            if (!newVal || ![newVal isKindOfClass:[NSNumber class]]) {
+                newVal = 0;
+            }
+            [stack replaceObjectAtIndex:myOffset withObject:newVal];
+        }
+    }
     return [self popOperandOffProgramStack:stack];
+}
+
++ (NSSet *)variablesUsedInProgram:(id)program {
+    NSMutableSet *variables = [[NSMutableSet alloc] init];
+    NSArray *stack;
+    if ([program isKindOfClass:[NSArray class]]) {
+        stack = [program copy];
+    }
+
+    for (id item in stack) {
+        if ([item isKindOfClass:[NSString class]]) {
+            NSString *str = item;
+            if (![self isOperation:str]) {
+                [variables addObject:str];
+            }
+        }
+    }
+    
+    if ([variables count] < 1) {
+        variables = nil;
+    }
+    return variables;
+}
+
++ (double)runProgram:(id)program {
+    return [self runProgram:program usingVariableValues:nil];
 }
 
 @end

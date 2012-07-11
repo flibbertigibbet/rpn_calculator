@@ -13,7 +13,7 @@
 - (void)pushOperand:(double)operand;
 - (void)pushVariableOperand:(NSString *)var;
 - (double)performOperation:(NSString *)op;
-- (void)clear;
+- (void)clearStack;
 
 @property (nonatomic, readonly) id program;
 
@@ -22,5 +22,5 @@
 + (double)runProgram:(id)program
     usingVariableValues:(NSDictionary *)variableValues;
 + (NSSet *)variablesUsedInProgram:(id)program;
-
++ (BOOL)isOperation:(NSString *)operation;
 @end

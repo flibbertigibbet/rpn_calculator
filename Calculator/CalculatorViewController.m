@@ -10,18 +10,16 @@
 #import "CalculatorBrain.h"
 
 @interface CalculatorViewController ()
-@property (nonatomic) BOOL userIsInTheMiddleOfEnteringANumber;
-@property (nonatomic) BOOL userHasAlreadyPressedDecimalPoint;
+@property (nonatomic) BOOL inTheMiddleOfEnteringANumber;
+@property (nonatomic) BOOL alreadyPressedDecimalPoint;
 @property (nonatomic, strong) CalculatorBrain *brain;
 @end
 
 @implementation CalculatorViewController
 @synthesize display = _display;
 @synthesize sentToBrain = _sentToBrain;
-@synthesize userIsInTheMiddleOfEnteringANumber = \
-        _userIsInTheMiddleOfEnteringANumber;
-@synthesize userHasAlreadyPressedDecimalPoint = \
-        _userHasAlreadyPressedDecimalPoint;
+@synthesize inTheMiddleOfEnteringANumber = _inTheMiddleOfEnteringANumber;
+@synthesize alreadyPressedDecimalPoint = _alreadyPressedDecimalPoint;
 @synthesize brain = _brain;
 
 - (CalculatorBrain *)brain {
@@ -32,25 +30,25 @@
 - (IBAction)digitPressed:(UIButton *)sender {
     NSString *digit = sender.currentTitle;
     
-    if (self.userIsInTheMiddleOfEnteringANumber) {
+    if (self.inTheMiddleOfEnteringANumber) {
         self.display.text = [self.display.text stringByAppendingString:digit];
     } else {
         self.display.text = digit;
-        self.userIsInTheMiddleOfEnteringANumber = YES;
+        self.inTheMiddleOfEnteringANumber = YES;
     }
 }
 
 - (IBAction)decimalPointPressed {
-    if (!self.userHasAlreadyPressedDecimalPoint) {
-        if (self.userIsInTheMiddleOfEnteringANumber) {
+    if (!self.alreadyPressedDecimalPoint) {
+        if (self.inTheMiddleOfEnteringANumber) {
             self.display.text = \
             [self.display.text stringByAppendingString:@"."];
         } else {
             // in case the decimal point is first 
             self.display.text = @"0.";
-            self.userIsInTheMiddleOfEnteringANumber = YES;
+            self.inTheMiddleOfEnteringANumber = YES;
         }
-        self.userHasAlreadyPressedDecimalPoint = YES;
+        self.alreadyPressedDecimalPoint = YES;
     }
 }
 
@@ -71,7 +69,7 @@
                      -[self.display.text doubleValue]];
     
     // if user not currently entering a number, enter value
-    if (!self.userIsInTheMiddleOfEnteringANumber) {
+    if (!self.inTheMiddleOfEnteringANumber) {
         [self enterPressed];
     }
 }
@@ -82,12 +80,12 @@
     // append value followed by space to label of all entries
     [self appendToHistory:self.display.text:NO];
     
-    self.userIsInTheMiddleOfEnteringANumber = NO;
-    self.userHasAlreadyPressedDecimalPoint = NO;
+    self.inTheMiddleOfEnteringANumber = NO;
+    self.alreadyPressedDecimalPoint = NO;
 }
 
 - (IBAction)operationPressed:(UIButton *)sender {
-    if (self.userIsInTheMiddleOfEnteringANumber) {
+    if (self.inTheMiddleOfEnteringANumber) {
         [self enterPressed];
     }
     
@@ -101,7 +99,7 @@
 }
 
 - (IBAction)clearPressed {
-    [self.brain clear]; // empty stack in model
+    [self.brain clearStack]; // empty stack in model
     self.display.text = @"0";
     self.sentToBrain.text = @"";
 }
