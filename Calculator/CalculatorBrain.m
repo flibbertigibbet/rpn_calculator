@@ -173,15 +173,14 @@
     NSSet *myVars = [self variablesUsedInProgram:stack];
     id newVal = [NSNumber numberWithDouble:0.0];
     
-    for (int i=0; i<[stack count]; i++) {
+    for (NSUInteger i=0; i<[stack count]; i++) {
         id item = [stack objectAtIndex:i];
         if ([myVars member:item]) {
-            NSUInteger myOffset = [stack indexOfObject:item];
             newVal = [vars objectForKey:item];
             if (!newVal || ![newVal isKindOfClass:[NSNumber class]]) {
                 newVal = [NSNumber numberWithDouble:0.0];
             }
-            [stack replaceObjectAtIndex:myOffset withObject:newVal];
+            [stack replaceObjectAtIndex:i withObject:newVal];
         }
     }
     return [self popOperandOffProgramStack:stack];
