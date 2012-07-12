@@ -132,8 +132,16 @@
 - (IBAction)operationPressed:(UIButton *)sender {
     if (self.inTheMiddleOfEnteringANumber) [self enterPressed];
     NSString *operation = sender.currentTitle;  
-    self.display.text = [NSString stringWithFormat:@"%g", [self.brain 
-        performOperation:operation usingVars:[self.enteredVariables copy]]];
+    double result = [self.brain performOperation:operation 
+                                       usingVars:[self.enteredVariables copy]];
+    if (isnan(result)) {
+        // change history display text to red when 0 substituting for NaN
+        // (change back on clear)
+        self.sentToBrain.textColor = [UIColor redColor];
+        result = 0;
+    }
+
+    self.display.text = [NSString stringWithFormat:@"%g", result];
     [self refreshHistory];
 }
 
@@ -143,6 +151,7 @@
     self.variableDisplay.text = @"";
     self.display.text = @"0";
     self.sentToBrain.text = @"";
+    self.sentToBrain.textColor = [UIColor blackColor];
 }
 
 - (void)refreshHistory {

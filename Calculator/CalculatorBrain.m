@@ -157,8 +157,6 @@
             result = M_PI;
         }
     }
-    
-    if (isnan(result)) result = 0;
     return result;
 }
 
