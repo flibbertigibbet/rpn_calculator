@@ -32,7 +32,8 @@
     NSArray *stack;
     NSString *desc;
     if ([program isKindOfClass:[NSArray class]]) stack = [program mutableCopy];
-    while (stack.count) [statements addObject:[self descriptionOfTopOfStack:stack:nil]];
+    while (stack.count) [statements addObject:[self 
+                                        descriptionOfTopOfStack:stack:nil]];
     desc = [statements componentsJoinedByString:@", "];
     return desc;
 }
@@ -55,22 +56,25 @@
         if ([[self class] isOperation:obj]) {
             numops = [self numberOfOperands:obj];
             
+            // no parens if parent stmt is same kind (except division)
             if (![obj isEqual:@"÷"]) if ([obj isEqual:parent]) wrap = false;
+            // no parens if parent stmt takes 0 or 1 operand
+            if ([self numberOfOperands:parent] != 2) wrap = false;
             
             switch (numops) {
+                case 2:
+                    holdArg = [self descriptionOfTopOfStack:stack:obj];
+                    desc = [NSString stringWithFormat:@"%@%@%@",
+                            [self descriptionOfTopOfStack:stack:obj], 
+                            obj, holdArg];
+                    break;
                 case 1:
                     wrap = false;
                     thisArg = [self descriptionOfTopOfStack:stack:obj];
                     desc = [NSString stringWithFormat:@"%@%@%@%@", obj, @"(",
                         thisArg, @")"];
                     break;
-                case 2:
-                    holdArg = [self descriptionOfTopOfStack:stack:obj];
-                   desc = [NSString stringWithFormat:@"%@%@%@",
-                           [self descriptionOfTopOfStack:stack:obj], 
-                           obj, holdArg];
-                    break;
-                case 0:
+                default:
                     wrap = false;
                     desc = obj;
                     break;
@@ -158,7 +162,8 @@
 }
 
 + (BOOL)isOperation:(NSString *)myOp {
-    return [[NSSet setWithObjects:@"+", @"×", @"-", @"÷", @"sin", @"cos", @"√", @"π", nil] containsObject:myOp];
+    return [[NSSet setWithObjects:@"+", @"×", @"-", @"÷", @"sin", 
+             @"cos", @"√", @"π", nil] containsObject:myOp];
 }
 
 + (double)runProgram:(id)program usingVariableValues:(NSDictionary *)vars {

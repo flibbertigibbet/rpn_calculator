@@ -108,7 +108,9 @@
     if (![self.display.text length]) {
         self.inTheMiddleOfEnteringANumber = NO;
         self.alreadyPressedDecimalPoint = NO;
-        self.display.text = [NSString stringWithFormat:@"%g", [[self.brain class] runProgram:[self.brain program] usingVariableValues:[self.enteredVariables copy]]];
+        self.display.text = [NSString stringWithFormat:@"%g", 
+            [[self.brain class] runProgram:[self.brain program] 
+            usingVariableValues:[self.enteredVariables copy]]];
         [self refreshHistory];
     }
 }
@@ -130,7 +132,8 @@
 - (IBAction)operationPressed:(UIButton *)sender {
     if (self.inTheMiddleOfEnteringANumber) [self enterPressed];
     NSString *operation = sender.currentTitle;  
-    self.display.text = [NSString stringWithFormat:@"%g", [self.brain performOperation:operation usingVars:[self.enteredVariables copy]]];
+    self.display.text = [NSString stringWithFormat:@"%g", [self.brain 
+        performOperation:operation usingVars:[self.enteredVariables copy]]];
     [self refreshHistory];
 }
 
