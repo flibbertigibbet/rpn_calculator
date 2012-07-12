@@ -464,12 +464,20 @@
                                     <action selector="test3Pressed" destination="2" eventType="touchUpInside" id="Bpr-g3-8rb"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="wPR-Gt-uwb">
+                                <rect key="frame" x="20" y="428" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="display" destination="bBT-wv-cg1" id="V0N-ew-eVo"/>
                         <outlet property="sentToBrain" destination="1AJ-BC-Hb0" id="IX7-H3-TYa"/>
+                        <outlet property="variableDisplay" destination="wPR-Gt-uwb" id="ffP-e5-F7T"/>
                     </connections>
                 </viewController>
             </objects>
@@ -482,6 +490,7 @@
             <relationships>
                 <relationship kind="outlet" name="display" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="sentToBrain" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="variableDisplay" candidateClass="UILabel"/>
             </relationships>
         </class>
     </classes>

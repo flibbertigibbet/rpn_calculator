@@ -169,7 +169,6 @@
     id newVal = [NSNumber numberWithDouble:0.0];
     
     for (int i=0; i<[stack count]; i++) {
-    //for (id item in stack) {
         id item = [stack objectAtIndex:i];
         if ([myVars member:item]) {
             NSUInteger myOffset = [stack indexOfObject:item];

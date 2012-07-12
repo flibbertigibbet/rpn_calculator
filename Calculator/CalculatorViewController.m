@@ -19,6 +19,7 @@
 @implementation CalculatorViewController
 @synthesize display = _display;
 @synthesize sentToBrain = _sentToBrain;
+@synthesize variableDisplay = _variableDisplay;
 @synthesize inTheMiddleOfEnteringANumber = _inTheMiddleOfEnteringANumber;
 @synthesize alreadyPressedDecimalPoint = _alreadyPressedDecimalPoint;
 @synthesize brain = _brain;
@@ -42,10 +43,12 @@
 -(void)setVariable:(NSString *)varName:(double)toValue {
     if (toValue) [self.enteredVariables setValue:
                   [NSNumber numberWithDouble:toValue] forKey:varName];
+    [self refreshVariableLabel];
 }
 
 - (IBAction)testNilPressed {
     self.enteredVariables = nil;
+    [self refreshVariableLabel];
 }
 
 - (IBAction)test2Pressed {
@@ -133,6 +136,8 @@
 
 - (IBAction)clearPressed {
     [self.brain clearStack]; // empty stack in model
+    [self.enteredVariables removeAllObjects];
+    self.variableDisplay.text = @"";
     self.display.text = @"0";
     self.sentToBrain.text = @"";
 }
@@ -141,6 +146,23 @@
     NSString *history = [[self.brain class] 
                          descriptionOfProgram:[self.brain program]];
     self.sentToBrain.text = history;
+    [self refreshVariableLabel];
 }
 
+- (void)refreshVariableLabel {
+    NSString *varText = @"";
+    id gotVal;
+    NSSet *myVars = [[self.brain class] variablesUsedInProgram:[self.brain program]];
+
+    for (id item in myVars) {
+        if ([varText length]) {
+            varText = [NSString stringWithFormat:
+                       @"%@%@", varText, @", "];
+        }
+        gotVal = [self.enteredVariables valueForKey:item];
+        if (!gotVal) gotVal = @"0";
+        varText = [NSString stringWithFormat:@"%@%@%@%@", varText, item, @" = ", gotVal];
+    }
+    self.variableDisplay.text = varText;
+}
 @end

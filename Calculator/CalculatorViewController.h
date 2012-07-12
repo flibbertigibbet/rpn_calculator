@@ -12,4 +12,5 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *display;
 @property (weak, nonatomic) IBOutlet UILabel *sentToBrain;
+@property (weak, nonatomic) IBOutlet UILabel *variableDisplay;
 @end
