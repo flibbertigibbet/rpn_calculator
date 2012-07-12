@@ -90,10 +90,8 @@
 }
 
 +(int)numberOfOperands:(NSString *)opName {
-    NSArray *oneOperand = [[NSArray alloc] initWithObjects:@"sin", @"cos", 
-        @"√", nil];
-    NSArray *twoOperands = [[NSArray alloc] initWithObjects:@"+", @"-",
-        @"×", @"÷", nil];
+    NSSet *oneOperand = [[NSSet alloc] initWithObjects:@"sin", @"cos", @"√", nil];
+    NSSet *twoOperands = [[NSSet alloc] initWithObjects:@"+", @"-", @"×", @"÷", nil];
     
     if ([twoOperands containsObject:opName]) {
         return 2;
