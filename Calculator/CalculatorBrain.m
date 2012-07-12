@@ -32,12 +32,12 @@
     NSArray *stack;
     NSString *desc;
     if ([program isKindOfClass:[NSArray class]]) stack = [program mutableCopy];
-    while (stack.count) [statements addObject:[self descriptionOfTopOfStack:stack]];
+    while (stack.count) [statements addObject:[self descriptionOfTopOfStack:stack:nil]];
     desc = [statements componentsJoinedByString:@", "];
     return desc;
 }
 
-+(NSString *)descriptionOfTopOfStack:(id)stack {
++(NSString *)descriptionOfTopOfStack:(id)stack:(NSString *)parent {
     NSString *desc = @"0";
     int numops;
     id holdArg;
@@ -45,6 +45,8 @@
     bool wrap = true;
     id obj = [stack lastObject];
     if (obj) [stack removeLastObject];
+    
+    if (!parent) wrap = false; // no parens around top level
         
     if ([obj isKindOfClass:[NSNumber class]]) {
         wrap = false;
@@ -56,16 +58,14 @@
             switch (numops) {
                 case 1:
                     wrap = false;
-                    thisArg = [self descriptionOfTopOfStack:stack];
+                    thisArg = [self descriptionOfTopOfStack:stack:obj];
                     desc = [NSString stringWithFormat:@"%@%@%@%@", obj, @"(",
                         thisArg, @")"];
                     break;
                 case 2:
-                    holdArg = [self descriptionOfTopOfStack:stack];
-                    //if ([obj isEqual:@"×"] || [obj isEqual:@"÷"]) wrap = false;
-                                               
+                    holdArg = [self descriptionOfTopOfStack:stack:obj];
                    desc = [NSString stringWithFormat:@"%@%@%@",
-                           [self descriptionOfTopOfStack:stack], 
+                           [self descriptionOfTopOfStack:stack:obj], 
                            obj, holdArg];
                     break;
                 case 0:
