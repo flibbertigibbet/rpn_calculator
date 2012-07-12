@@ -55,6 +55,8 @@
         if ([[self class] isOperation:obj]) {
             numops = [self numberOfOperands:obj];
             
+            if (![obj isEqual:@"÷"]) if ([obj isEqual:parent]) wrap = false;
+            
             switch (numops) {
                 case 1:
                     wrap = false;
@@ -71,9 +73,6 @@
                 case 0:
                     wrap = false;
                     desc = obj;
-                    break;
-                default:
-                    desc = @"oops";
                     break;
             }
         } else {
