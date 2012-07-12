@@ -48,6 +48,11 @@
     if (obj) [stack removeLastObject];
     
     if (!parent) wrap = false; // no parens around top level
+    // no parens if parent stmt is a number or takes 0 or 1 operand
+    if ([parent isKindOfClass:[NSNumber class]] || 
+        [self numberOfOperands:parent] != 2) {
+        wrap = false;
+    }
         
     if ([obj isKindOfClass:[NSNumber class]]) {
         wrap = false;
@@ -58,8 +63,6 @@
             
             // no parens if parent stmt is same kind (except division)
             if (![obj isEqual:@"÷"]) if ([obj isEqual:parent]) wrap = false;
-            // no parens if parent stmt takes 0 or 1 operand
-            if ([self numberOfOperands:parent] != 2) wrap = false;
             
             switch (numops) {
                 case 2:
@@ -81,7 +84,7 @@
             }
         } else {
             wrap = false;
-            desc = obj; // a variable
+            desc = obj; 
         }
     }
     
