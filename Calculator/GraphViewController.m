@@ -7,8 +7,9 @@
 //
 
 #import "GraphViewController.h"
+#import "CalculatorBrain.h"
 
-@interface GraphViewController ()
+@interface GraphViewController () <GraphDataSource>
 @property (nonatomic) id myProgram;
 @property (weak, nonatomic) IBOutlet GraphView *myGraph;
 @end
@@ -19,6 +20,16 @@
 
 - (void) setProgram : (id) program {
     self.myProgram = program;
+    NSLog(@"set my program");
+}
+
+-(id) getY: (CGFloat) x {
+    NSLog(@"getting y");
+    NSDictionary *myVars = [[NSDictionary alloc] initWithObjectsAndKeys:
+                            [NSNumber numberWithFloat:x], @"x", nil];
+    CGFloat y = [CalculatorBrain runProgram:self.myProgram usingVariableValues:myVars];
+    NSLog(@"%@%g", @"y: ", y);
+    return [NSNumber numberWithFloat:y];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -26,6 +37,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
+        
     }
     return self;
 }

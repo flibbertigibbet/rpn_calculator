@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class GraphView;
+@protocol GraphDataSource
+- (id) getY:(CGFloat) x;
+@end
 @interface GraphView : UIView
-
+@property (nonatomic, weak) IBOutlet id <GraphDataSource> dataSource;
 @end

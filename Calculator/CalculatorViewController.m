@@ -38,8 +38,9 @@
     return _brain;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue {
-    if ([segue.identifier isEqualToString:@""]) {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    //NSLog(segue.identifier);
+    if ([segue.identifier isEqualToString:@"GraphSegue"]) {
         GraphViewController *newGraph = segue.destinationViewController;
         // set program to graph
         [newGraph setProgram:self.brain.program];

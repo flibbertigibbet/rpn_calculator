@@ -426,10 +426,13 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.80479767529824819" green="0.88712375624698236" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <connections>
+                            <outlet property="dataSource" destination="DJL-Gp-w8m" id="8ES-cH-0aE"/>
+                        </connections>
                     </view>
                     <connections>
-                        <outlet property="myGraph" destination="rBV-dK-vR7" id="LVH-EA-foK"/>
-                        <outlet property="view" destination="rBV-dK-vR7" id="Vdl-M6-ugm"/>
+                        <outlet property="myGraph" destination="rBV-dK-vR7" id="m2c-Be-h9B"/>
+                        <outlet property="view" destination="rBV-dK-vR7" id="QVe-Qe-x5g"/>
                     </connections>
                 </viewController>
             </objects>
@@ -454,24 +457,6 @@
             <point key="canvasLocation" x="-803" y="-561"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="CalculatorViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CalculatorViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="display" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="sentToBrain" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="GraphView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphView.h"/>
-        </class>
-        <class className="GraphViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="myGraph" candidateClass="GraphView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

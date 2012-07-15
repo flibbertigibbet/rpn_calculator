@@ -11,4 +11,5 @@
 
 @interface GraphViewController : UIViewController
 -(void) setProgram : (id) program;
+-(id) getY : (CGFloat) x;
 @end
