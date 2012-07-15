@@ -19,7 +19,6 @@
 @implementation CalculatorViewController
 @synthesize display = _display;
 @synthesize sentToBrain = _sentToBrain;
-@synthesize variableDisplay = _variableDisplay;
 @synthesize inTheMiddleOfEnteringANumber = _inTheMiddleOfEnteringANumber;
 @synthesize alreadyPressedDecimalPoint = _alreadyPressedDecimalPoint;
 @synthesize brain = _brain;
@@ -28,10 +27,7 @@
 -(NSDictionary *)enteredVariables {
     if (!_enteredVariables) {
         _enteredVariables = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-            [NSNumber numberWithDouble: 0.0], @"x", 
-            [NSNumber numberWithDouble: 0.0], @"y", 
-            [NSNumber numberWithDouble: 0.0], @"z",
-            nil];
+            [NSNumber numberWithDouble: 0.0], @"x", nil];
     }
     return _enteredVariables;
 }
@@ -43,26 +39,7 @@
 -(void)setVariable:(NSString *)varName:(double)toValue {
     if (toValue) [self.enteredVariables setValue:
                   [NSNumber numberWithDouble:toValue] forKey:varName];
-    [self refreshVariableLabel];
 }
-
-- (IBAction)testNilPressed {
-    self.enteredVariables = nil;
-    [self refreshVariableLabel];
-}
-
-- (IBAction)test2Pressed {
-    [self setVariable:@"x" : 6];
-    [self setVariable:@"y" : 4];
-    [self setVariable:@"z" : 4636.39];
-}
-
-- (IBAction)test3Pressed {
-    [self setVariable:@"x" : 0.6666666];
-    [self setVariable:@"y" : 1];
-    [self setVariable:@"z" : -0.00000000001];
-}
-
 - (IBAction)variablePressed:(UIButton *)sender {
     if (self.inTheMiddleOfEnteringANumber) [self enterPressed];
     [self.brain pushVariableOperand:sender.currentTitle];
@@ -148,7 +125,6 @@
 - (IBAction)clearPressed {
     [self.brain clearStack]; // empty stack in model
     [self.enteredVariables removeAllObjects];
-    self.variableDisplay.text = @"";
     self.display.text = @"0";
     self.sentToBrain.text = @"";
     self.sentToBrain.textColor = [UIColor blackColor];
@@ -158,23 +134,5 @@
     NSString *history = [[self.brain class] 
                          descriptionOfProgram:[self.brain program]];
     self.sentToBrain.text = history;
-    [self refreshVariableLabel];
-}
-
-- (void)refreshVariableLabel {
-    NSString *varText = @"";
-    id gotVal;
-    NSSet *myVars = [[self.brain class] variablesUsedInProgram:[self.brain program]];
-
-    for (id item in myVars) {
-        if ([varText length]) {
-            varText = [NSString stringWithFormat:
-                       @"%@%@", varText, @", "];
-        }
-        gotVal = [self.enteredVariables valueForKey:item];
-        if (!gotVal) gotVal = @"0";
-        varText = [NSString stringWithFormat:@"%@%@%@%@", varText, item, @" = ", gotVal];
-    }
-    self.variableDisplay.text = varText;
 }
 @end
