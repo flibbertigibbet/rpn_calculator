@@ -13,4 +13,7 @@
 -(void) setProgram : (id) program;
 -(id) getY : (CGFloat) x;
 @property (weak, nonatomic) IBOutlet UILabel *programDescription;
+@property (strong, nonatomic) IBOutlet UIPinchGestureRecognizer *pinched;
+@property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *panned;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapped;
 @end

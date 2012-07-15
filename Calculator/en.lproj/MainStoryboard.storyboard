@@ -435,16 +435,38 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="0.80479767529824819" green="0.88712375624698236" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
                         <connections>
                             <outlet property="dataSource" destination="DJL-Gp-w8m" id="8ES-cH-0aE"/>
+                            <outletCollection property="gestureRecognizers" destination="5ER-Lb-mgH" appends="YES" id="i5l-jy-jnH"/>
+                            <outletCollection property="gestureRecognizers" destination="1lg-ht-ulM" appends="YES" id="3nH-36-haE"/>
+                            <outletCollection property="gestureRecognizers" destination="5bV-Mp-BVu" appends="YES" id="J67-fy-hu6"/>
                         </connections>
                     </view>
                     <connections>
                         <outlet property="myGraph" destination="rBV-dK-vR7" id="m2c-Be-h9B"/>
+                        <outlet property="panned" destination="1lg-ht-ulM" id="MtR-Ve-Sqt"/>
+                        <outlet property="pinched" destination="5ER-Lb-mgH" id="ZXt-sE-LF2"/>
                         <outlet property="programDescription" destination="dhO-pL-PAf" id="xr7-sL-7kt"/>
+                        <outlet property="tapped" destination="5bV-Mp-BVu" id="tpB-ck-2ct"/>
                         <outlet property="view" destination="rBV-dK-vR7" id="QVe-Qe-x5g"/>
                     </connections>
                 </viewController>
+                <pinchGestureRecognizer id="5ER-Lb-mgH">
+                    <connections>
+                        <action selector="didPinch:" destination="DJL-Gp-w8m" id="R5x-cu-C4J"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="1lg-ht-ulM">
+                    <connections>
+                        <action selector="didPan:" destination="DJL-Gp-w8m" id="ucH-lf-SQQ"/>
+                    </connections>
+                </panGestureRecognizer>
+                <tapGestureRecognizer numberOfTapsRequired="3" id="5bV-Mp-BVu">
+                    <connections>
+                        <action selector="didTap:" destination="DJL-Gp-w8m" id="zsX-hv-HTi"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="163" y="-561"/>
         </scene>
@@ -485,7 +507,10 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="myGraph" candidateClass="GraphView"/>
+                <relationship kind="outlet" name="panned" candidateClass="UIPanGestureRecognizer"/>
+                <relationship kind="outlet" name="pinched" candidateClass="UIPinchGestureRecognizer"/>
                 <relationship kind="outlet" name="programDescription" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="tapped" candidateClass="UITapGestureRecognizer"/>
             </relationships>
         </class>
     </classes>

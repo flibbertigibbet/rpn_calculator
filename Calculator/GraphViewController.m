@@ -16,6 +16,9 @@
 
 @implementation GraphViewController
 @synthesize programDescription = _programDescription;
+@synthesize pinched = _pinched;
+@synthesize panned = _panned;
+@synthesize tapped = _tapped;
 @synthesize myProgram = _myProgram;
 @synthesize myGraph = _myGraph;
 
@@ -26,6 +29,23 @@
     NSLog(@"%@%@", @"prog text is: ", progText);
     [self.programDescription setText:progText];
     //self.programDescription.text = progText;
+}
+
+- (IBAction)didPinch:(UIPinchGestureRecognizer *)sender
+{
+    // TODO: set graph scale to sender's scale
+    NSLog(@"%@%g%@%g", @"scale: ", sender.scale,
+          @" velocity: ", sender.velocity);
+}
+
+- (IBAction)didPan:(UIPanGestureRecognizer *)sender {
+    NSLog(@"didPan");
+    
+}
+
+- (IBAction)didTap:(UITapGestureRecognizer *)sender {
+    NSLog(@"didTripleTap");
+    
 }
 
 -(id) getY: (CGFloat) x {
@@ -59,6 +79,9 @@
 
 - (void)viewDidUnload {
     [self setProgramDescription:nil];
+    [self setPinched:nil];
+    [self setPanned:nil];
+    [self setTapped:nil];
     [super viewDidUnload];
 }
 @end
