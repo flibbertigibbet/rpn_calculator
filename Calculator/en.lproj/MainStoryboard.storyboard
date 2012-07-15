@@ -402,6 +402,7 @@
                                 </state>
                                 <connections>
                                     <action selector="graphPressed" destination="2" eventType="touchUpInside" id="54q-P5-O6x"/>
+                                    <segue destination="DJL-Gp-w8m" kind="push" identifier="GraphSegue" id="qNj-wn-aQL"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -414,7 +415,21 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-317" y="-561"/>
+            <point key="canvasLocation" x="-325" y="-561"/>
+        </scene>
+        <!--Graph View Controller - Graph-->
+        <scene sceneID="A1X-eO-xp8">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5Mb-kw-ciE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="Graph" title="Graph" id="DJL-Gp-w8m" customClass="GraphViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rBV-dK-vR7" customClass="GraphView">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.80479767529824819" green="0.88712375624698236" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="163" y="-561"/>
         </scene>
         <!--Navigation Controller - RPN Calculator-->
         <scene sceneID="Z6F-Kx-WNW">
@@ -442,6 +457,12 @@
                 <relationship kind="outlet" name="display" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="sentToBrain" candidateClass="UILabel"/>
             </relationships>
+        </class>
+        <class className="GraphView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphView.h"/>
+        </class>
+        <class className="GraphViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphViewController.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
