@@ -8,6 +8,7 @@
 
 #import "CalculatorViewController.h"
 #import "CalculatorBrain.h"
+#import "GraphViewController.h"
 
 @interface CalculatorViewController ()
 @property (nonatomic) BOOL inTheMiddleOfEnteringANumber;
@@ -35,6 +36,14 @@
 - (CalculatorBrain *)brain {
     if (!_brain) _brain = [[CalculatorBrain alloc] init];
     return _brain;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue {
+    if ([segue.identifier isEqualToString:@""]) {
+        GraphViewController *newGraph = segue.destinationViewController;
+        // set program to graph
+        [newGraph setProgram:self.brain.program];
+    }
 }
 
 - (IBAction)graphPressed {

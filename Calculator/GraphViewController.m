@@ -10,11 +10,16 @@
 
 @interface GraphViewController ()
 @property (nonatomic) id myProgram;
+@property (weak, nonatomic) IBOutlet GraphView *myGraph;
 @end
 
 @implementation GraphViewController
 @synthesize myProgram = _myProgram;
+@synthesize myGraph = _myGraph;
 
+- (void) setProgram : (id) program {
+    self.myProgram = program;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,7 +32,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 @end
