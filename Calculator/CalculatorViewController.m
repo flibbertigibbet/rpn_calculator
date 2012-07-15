@@ -36,10 +36,16 @@
     if (!_brain) _brain = [[CalculatorBrain alloc] init];
     return _brain;
 }
+
+- (IBAction)graphPressed {
+    NSLog(@"do graph");
+}
+
 -(void)setVariable:(NSString *)varName:(double)toValue {
     if (toValue) [self.enteredVariables setValue:
                   [NSNumber numberWithDouble:toValue] forKey:varName];
 }
+
 - (IBAction)variablePressed:(UIButton *)sender {
     if (self.inTheMiddleOfEnteringANumber) [self enterPressed];
     [self.brain pushVariableOperand:sender.currentTitle];
