@@ -12,4 +12,5 @@
 @interface GraphViewController : UIViewController
 -(void) setProgram : (id) program;
 -(id) getY : (CGFloat) x;
+@property (weak, nonatomic) IBOutlet UILabel *programDescription;
 @end

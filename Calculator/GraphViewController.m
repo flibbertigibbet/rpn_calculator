@@ -15,12 +15,17 @@
 @end
 
 @implementation GraphViewController
+@synthesize programDescription = _programDescription;
 @synthesize myProgram = _myProgram;
 @synthesize myGraph = _myGraph;
 
 - (void) setProgram : (id) program {
     self.myProgram = program;
     NSLog(@"set my program");
+    NSString *progText = [CalculatorBrain descriptionOfProgram:program];
+    NSLog(@"%@%@", @"prog text is: ", progText);
+    [self.programDescription setText:progText];
+    //self.programDescription.text = progText;
 }
 
 -(id) getY: (CGFloat) x {
@@ -48,4 +53,12 @@
     return YES;
 }
 
+-(void)viewDidLoad {
+    self.programDescription.text = [CalculatorBrain descriptionOfProgram:self.myProgram];
+}
+
+- (void)viewDidUnload {
+    [self setProgramDescription:nil];
+    [super viewDidUnload];
+}
 @end

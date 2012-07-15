@@ -425,6 +425,15 @@
                     <view key="view" contentMode="scaleToFill" id="rBV-dK-vR7" customClass="GraphView">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="dhO-pL-PAf">
+                                <rect key="frame" x="20" y="375" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" red="0.80479767529824819" green="0.88712375624698236" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <connections>
                             <outlet property="dataSource" destination="DJL-Gp-w8m" id="8ES-cH-0aE"/>
@@ -432,6 +441,7 @@
                     </view>
                     <connections>
                         <outlet property="myGraph" destination="rBV-dK-vR7" id="m2c-Be-h9B"/>
+                        <outlet property="programDescription" destination="dhO-pL-PAf" id="xr7-sL-7kt"/>
                         <outlet property="view" destination="rBV-dK-vR7" id="QVe-Qe-x5g"/>
                     </connections>
                 </viewController>
@@ -457,6 +467,28 @@
             <point key="canvasLocation" x="-803" y="-561"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="CalculatorViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CalculatorViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="display" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="sentToBrain" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="GraphView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="dataSource"/>
+            </relationships>
+        </class>
+        <class className="GraphViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="myGraph" candidateClass="GraphView"/>
+                <relationship kind="outlet" name="programDescription" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
