@@ -49,9 +49,7 @@
     if (!parent) wrap = false; // no parens around top level
     // no parens if parent stmt is a number or takes 0 or 1 operand
     if ([parent isKindOfClass:[NSNumber class]] || 
-        [self numberOfOperands:parent] != 2) {
-        wrap = false;
-    }
+        [self numberOfOperands:parent] != 2) wrap = false;
         
     if ([obj isKindOfClass:[NSNumber class]]) {
         wrap = false;
@@ -194,9 +192,7 @@
     for (id item in stack) {
         if ([item isKindOfClass:[NSString class]]) {
             NSString *str = item;
-            if (![self isOperation:str]) {
-                [variables addObject:str];
-            }
+            if (![self isOperation:str]) [variables addObject:str];
         }
     }
     

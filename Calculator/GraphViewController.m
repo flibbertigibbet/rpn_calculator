@@ -74,7 +74,6 @@
     [self.defaults setObject:[NSNumber numberWithFloat:sender.scale] forKey:@"scale"];
     [self.defaults synchronize];
     
-    //[self.graph setNeedsDisplay];
     [self getScale];
     
     NSLog(@"%@%g%@%g", @"scale: ", sender.scale,
@@ -96,7 +95,6 @@
     
     [self.defaults synchronize];
     
-    //[self.graph setNeedsDisplay];
     [self getOrigin];
     
     [sender setTranslation:CGPointZero inView:self.graph];
