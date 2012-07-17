@@ -10,8 +10,10 @@
 #import "GraphView.h"
 
 @interface GraphViewController : UIViewController
--(void) setProgram : (id) program;
+-(void) setProgram : (id) p;
 -(id) getY : (CGFloat) x;
+-(CGFloat) getScale;
+-(CGPoint) getOrigin;
 @property (weak, nonatomic) IBOutlet UILabel *programDescription;
 @property (strong, nonatomic) IBOutlet UIPinchGestureRecognizer *pinched;
 @property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *panned;

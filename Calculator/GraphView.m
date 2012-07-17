@@ -37,8 +37,10 @@
     CGFloat scale;
     
     bounds = self.bounds;
-    origin = self.center;
-    scale = self.contentScaleFactor;
+    scale = [self.dataSource getScale];
+    if (!scale) scale = self.contentScaleFactor;
+    origin = [self.dataSource getOrigin];
+    if (!origin.x) origin = self.center;
     
     CGContextBeginPath(context);
     

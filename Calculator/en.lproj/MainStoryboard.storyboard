@@ -444,7 +444,7 @@
                         </connections>
                     </view>
                     <connections>
-                        <outlet property="myGraph" destination="rBV-dK-vR7" id="m2c-Be-h9B"/>
+                        <outlet property="graph" destination="rBV-dK-vR7" id="N9P-tp-cyK"/>
                         <outlet property="panned" destination="1lg-ht-ulM" id="MtR-Ve-Sqt"/>
                         <outlet property="pinched" destination="5ER-Lb-mgH" id="ZXt-sE-LF2"/>
                         <outlet property="programDescription" destination="dhO-pL-PAf" id="xr7-sL-7kt"/>
