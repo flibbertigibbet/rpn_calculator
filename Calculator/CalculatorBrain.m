@@ -42,7 +42,6 @@
     NSString *desc = @"0";
     int numops;
     id holdArg;
-    id thisArg;
     bool wrap = true;
     id obj = [stack lastObject];
     if (obj) [stack removeLastObject];
@@ -73,9 +72,8 @@
                     break;
                 case 1:
                     wrap = false;
-                    thisArg = [self descriptionOfTopOfStack:stack:obj];
                     desc = [NSString stringWithFormat:@"%@%@%@%@", obj, @"(",
-                        thisArg, @")"];
+                        [self descriptionOfTopOfStack:stack:obj], @")"];
                     break;
                 default:
                     wrap = false;
