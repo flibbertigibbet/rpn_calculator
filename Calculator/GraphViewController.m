@@ -60,17 +60,12 @@
 
 - (void) setProgram : (id) program {
     self.myProgram = program;
-    NSLog(@"set my program");
     NSString *progText = [CalculatorBrain descriptionOfProgram:program];
-    NSLog(@"%@%@", @"prog text is: ", progText);
     [self.programDescription setText:progText];
-    //self.programDescription.text = progText;
 }
 
 - (IBAction)didPinch:(UIPinchGestureRecognizer *)sender
 {
-    // TODO: set graph scale to sender's scale
-    
     [self.defaults setObject:[NSNumber numberWithFloat:sender.scale] forKey:@"scale"];
     [self.defaults synchronize];
     

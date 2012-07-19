@@ -39,16 +39,14 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    //NSLog(segue.identifier);
     if ([segue.identifier isEqualToString:@"GraphSegue"]) {
-        GraphViewController *newGraph = segue.destinationViewController;
         // set program to graph
-        [newGraph setProgram:self.brain.program];
+        [segue.destinationViewController setProgram:self.brain.program];
     }
 }
 
 - (IBAction)graphPressed {
-    NSLog(@"do graph");
+    //NSLog(@"do graph");
 }
 
 -(void)setVariable:(NSString *)varName:(double)toValue {

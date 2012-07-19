@@ -47,12 +47,11 @@
     [AxesDrawer drawAxesInRect:bounds originAtPoint:origin scale:scale];
     
     CGFloat myWidth = bounds.size.width;
-    CGFloat myHeight = bounds.size.height;
-    CGFloat xOffeset = myWidth / 2;
-    CGFloat yOffset = myHeight / 2;
+    CGFloat xOffeset = origin.x;
+    CGFloat yOffset = origin.y;
     
     endPoint.x = 0;
-    endPoint.y = [[self.dataSource getY:endPoint.x] floatValue];
+    endPoint.y = -[[self.dataSource getY:endPoint.x - xOffeset] floatValue] + yOffset;
     
     for (CGFloat x=0; x <= myWidth; x++) {
         startPoint.x = endPoint.x;
