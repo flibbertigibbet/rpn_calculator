@@ -46,18 +46,20 @@
     
     [AxesDrawer drawAxesInRect:bounds originAtPoint:origin scale:scale];
     
-    CGFloat myWidth = bounds.size.width;
     CGFloat xOffeset = origin.x;
     CGFloat yOffset = origin.y;
+    CGFloat myWidth = (bounds.size.width + xOffeset) * scale;
     
-    endPoint.x = 0;
-    endPoint.y = -[[self.dataSource getY:endPoint.x - xOffeset] floatValue] + yOffset;
+    endPoint.x = -xOffeset/scale;
+    endPoint.y = yOffset-scale*[[self.dataSource getY:endPoint.x - xOffeset] floatValue];
     
-    for (CGFloat x=0; x <= myWidth; x++) {
+    CGFloat pixelIncrement = 1.0/self.contentScaleFactor;
+    
+    for (CGFloat x=-myWidth; x <= myWidth; x += pixelIncrement) {
         startPoint.x = endPoint.x;
         startPoint.y = endPoint.y;
-        endPoint.x = x;
-        endPoint.y = -[[self.dataSource getY:endPoint.x - xOffeset] floatValue] + yOffset;
+        endPoint.x = (x - xOffeset) / scale;
+        endPoint.y = yOffset-scale*[[self.dataSource getY:endPoint.x - xOffeset] floatValue];
     
         CGContextMoveToPoint(context, startPoint.x, startPoint.y);
         CGContextAddLineToPoint(context, endPoint.x, endPoint.y);
