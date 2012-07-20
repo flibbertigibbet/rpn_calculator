@@ -77,31 +77,31 @@
 }
 
 - (IBAction)didPan:(UIPanGestureRecognizer *)sender {
-    CGPoint panPoint = [sender translationInView:self.graph];
-    NSLog(@"%@%g%@%g", @"pan to x: ", panPoint.x, @" y: ", panPoint.y);
-    
-    CGPoint currentOrigin = self.getOrigin;
-    
     // add current origin to offset
+    CGPoint newOrigin = [sender translationInView:self.graph];
+    CGPoint currentOrigin = self.getOrigin;
+    newOrigin.x += currentOrigin.x;
+    newOrigin.y += currentOrigin.y;
     
-    [self.defaults setObject:[NSNumber numberWithFloat:(panPoint.x + currentOrigin.x)] forKey:@"origin_x"];
-    
-    [self.defaults setObject:[NSNumber numberWithFloat:(panPoint.y + currentOrigin.y)] forKey:@"origin_y"];
-    
-    [self.defaults synchronize];
-    
-    [self getOrigin];
-    
+    [self setNewOrigin:newOrigin];
     [sender setTranslation:CGPointZero inView:self.graph];
     [self.graph setNeedsDisplay];
-    
 }
 
 - (IBAction)didTap:(UITapGestureRecognizer *)sender {
     NSLog(@"didTripleTap");
+    CGPoint tapPoint = [sender locationInView:self.graph];
+    NSLog(@"%@%g%@%g", @"tap x ", tapPoint.x, @" tap y ", tapPoint.y);
     
-    
-    
+    [self setNewOrigin:[sender locationInView:self.graph]];
+}
+
+-(void) setNewOrigin:(CGPoint)newOrigin {
+    [self.defaults setObject:[NSNumber numberWithFloat:newOrigin.x] forKey:@"origin_x"];
+    [self.defaults setObject:[NSNumber numberWithFloat:newOrigin.y] forKey:@"origin_y"];
+    [self.defaults synchronize];
+    [self getOrigin];
+    [self.graph setNeedsDisplay];
 }
 
 -(id) getY: (CGFloat) x {
@@ -118,8 +118,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        
-        
     }
     return self;
 }
