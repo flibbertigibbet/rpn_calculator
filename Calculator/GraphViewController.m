@@ -113,21 +113,21 @@
     return [NSNumber numberWithFloat:y];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }
 
+-(void)awakeFromNib {
+    NSLog(@"awakeFromNib in GraphViewController");
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    NSLog(@"didRotate in GraphViewController");
+    [self.graph setNeedsDisplay];
+}
+
 -(void)viewDidLoad {
+    NSLog(@"didLoad in GraphViewController");
     self.programDescription.text = [CalculatorBrain descriptionOfProgram:self.myProgram];
 }
 
