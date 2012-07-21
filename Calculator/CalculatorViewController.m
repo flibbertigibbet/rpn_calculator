@@ -108,8 +108,12 @@
 
 - (IBAction)plusMinusPressed {
     // switch sign on display
+    // TODO: test if number
     self.display.text = [NSString stringWithFormat:@"%g", 
-                     -[self.display.text doubleValue]];
+                 -[self.display.text doubleValue]];
+    
+    //[self.display.text stringByAppendingString:@"-"];
+    
     if (!self.inTheMiddleOfEnteringANumber) [self enterPressed];
 }
 
@@ -142,6 +146,8 @@
     self.display.text = @"0";
     self.sentToBrain.text = @"";
     self.sentToBrain.textColor = [UIColor blackColor];
+    self.inTheMiddleOfEnteringANumber = NO;
+    self.alreadyPressedDecimalPoint = NO;
 }
 
 - (void)refreshHistory {
@@ -149,4 +155,23 @@
                          descriptionOfProgram:[self.brain program]];
     self.sentToBrain.text = history;
 }
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return NO;
+}
+
+-(void)awakeFromNib {
+    NSLog(@"awakeFromNib in CalculatorViewController");
+    
+}
+/*
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    NSLog(@"didRotate in CalculatorViewController");
+    
+    if (UIInterfaceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+        NSLog(@"rotated to landscape");
+    }
+    
+}*/
+
 @end
