@@ -41,20 +41,13 @@
 }
 
 -(CGPoint) getOrigin {
-    //
-    //return self.view.center;
-    //TODO:
     id origin_x = [self.defaults valueForKey:@"origin_x"];
     id origin_y = [self.defaults valueForKey:@"origin_y"];
     CGPoint newOrigin;
     if (origin_x && origin_y) {
-        
-        NSLog(@"%@%@%@%@", @"origin x: ", origin_x, @" origin y: ", origin_y);
-        
         newOrigin = CGPointMake([origin_x floatValue], [origin_y floatValue]);
     }
     if (!newOrigin.x) newOrigin = self.view.center;
-    
     return newOrigin;
 }
 
@@ -66,14 +59,10 @@
 
 - (IBAction)didPinch:(UIPinchGestureRecognizer *)sender
 {
-    [self.defaults setObject:[NSNumber numberWithFloat:sender.scale] forKey:@"scale"];
+    [self.defaults setObject:[NSNumber numberWithFloat:sender.scale] 
+                      forKey:@"scale"];
     [self.defaults synchronize];
-    
-    [self getScale];
-    
-    NSLog(@"%@%g%@%g", @"scale: ", sender.scale,
-          @" velocity: ", sender.velocity);
-    [self.graph setNeedsDisplay];
+    [self.graph setScale:[self getScale]];
 }
 
 - (IBAction)didPan:(UIPanGestureRecognizer *)sender {
@@ -85,7 +74,6 @@
     
     [self setNewOrigin:newOrigin];
     [sender setTranslation:CGPointZero inView:self.graph];
-    [self.graph setNeedsDisplay];
 }
 
 - (IBAction)didTap:(UITapGestureRecognizer *)sender {
@@ -97,38 +85,36 @@
 }
 
 -(void) setNewOrigin:(CGPoint)newOrigin {
-    [self.defaults setObject:[NSNumber numberWithFloat:newOrigin.x] forKey:@"origin_x"];
-    [self.defaults setObject:[NSNumber numberWithFloat:newOrigin.y] forKey:@"origin_y"];
+    [self.defaults setObject:[NSNumber numberWithFloat:newOrigin.x] 
+                      forKey:@"origin_x"];
+    [self.defaults setObject:[NSNumber numberWithFloat:newOrigin.y] 
+                      forKey:@"origin_y"];
     [self.defaults synchronize];
     [self getOrigin];
-    [self.graph setNeedsDisplay];
+    [self.graph setOrigin:newOrigin];
 }
 
 -(id) getY: (CGFloat) x {
-    //NSLog(@"getting y");
     NSDictionary *myVars = [[NSDictionary alloc] initWithObjectsAndKeys:
                             [NSNumber numberWithFloat:x], @"x", nil];
-    CGFloat y = [CalculatorBrain runProgram:self.myProgram usingVariableValues:myVars];
-    //NSLog(@"%@%g", @"y: ", y);
+    CGFloat y = [CalculatorBrain runProgram:self.myProgram 
+                            usingVariableValues:myVars];
     return [NSNumber numberWithFloat:y];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)
+            interfaceOrientation {
     return YES;
 }
 
--(void)awakeFromNib {
-    NSLog(@"awakeFromNib in GraphViewController");
-}
-
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    NSLog(@"didRotate in GraphViewController");
-    [self.graph setNeedsDisplay];
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)   
+            fromInterfaceOrientation {
+    [self.graph setNeedsDisplay]; // tell graph to redraw on rotate
 }
 
 -(void)viewDidLoad {
-    NSLog(@"didLoad in GraphViewController");
-    self.programDescription.text = [CalculatorBrain descriptionOfProgram:self.myProgram];
+    self.programDescription.text = [CalculatorBrain 
+                                    descriptionOfProgram:self.myProgram];
 }
 
 - (void)viewDidUnload {

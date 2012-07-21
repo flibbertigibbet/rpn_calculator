@@ -13,8 +13,22 @@
 @end
 
 @implementation CalculatorBrain
+static NSSet *operations;
+static NSSet *oneOperand;
+static NSSet *twoOperands;
 
 @synthesize programStack = _programStack;
+
++(void)initialize {
+    // class operation sets
+    if (self == [CalculatorBrain class]) {
+        operations = [[NSSet alloc] initWithObjects:
+                      @"+", @"×", @"-", @"÷", @"sin", @"cos", @"√", @"π", nil];
+        oneOperand = [[NSSet alloc] initWithObjects:@"sin", @"cos", @"√", nil];
+        twoOperands = [[NSSet alloc] initWithObjects:
+                       @"+", @"-", @"×", @"÷", nil];
+    }
+}
 
 - (NSMutableArray *)programStack {
     if (!_programStack) {
@@ -83,15 +97,12 @@
             desc = obj; 
         }
     }
-    
+
     if (wrap) desc = [NSString stringWithFormat:@"%@%@%@", @"(", desc, @")"];
     return desc;
 }
 
 +(int)numberOfOperands:(NSString *)opName {
-    NSSet *oneOperand = [[NSSet alloc] initWithObjects:@"sin", @"cos", @"√", nil];
-    NSSet *twoOperands = [[NSSet alloc] initWithObjects:@"+", @"-", @"×", @"÷", nil];
-    
     if ([twoOperands containsObject:opName]) {
         return 2;
     } else if ([oneOperand containsObject:opName]) {
@@ -99,6 +110,10 @@
     } else {
         return 0;
     }
+}
+
++ (BOOL)isOperation:(NSString *)myOp {
+    return [operations containsObject:myOp];
 }
 
 - (void)pushVariableOperand:(NSString *)var {
@@ -119,7 +134,6 @@
 - (void)clearStack {
     [self.programStack removeAllObjects];
 }
-
 
 + (double)popOperandOffProgramStack:(NSMutableArray *)stack {
     double result = 0;
@@ -154,11 +168,6 @@
         }
     }
     return result;
-}
-
-+ (BOOL)isOperation:(NSString *)myOp {
-    return [[NSSet setWithObjects:@"+", @"×", @"-", @"÷", @"sin", 
-             @"cos", @"√", @"π", nil] containsObject:myOp];
 }
 
 + (double)runProgram:(id)program usingVariableValues:(NSDictionary *)vars {

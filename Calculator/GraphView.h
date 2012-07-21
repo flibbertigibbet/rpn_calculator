@@ -10,10 +10,9 @@
 @class GraphView;
 @protocol GraphDataSource
 - (id) getY:(CGFloat) x;
-@optional
-- (CGFloat) getScale;
-- (CGPoint) getOrigin;
 @end
 @interface GraphView : UIView
 @property (nonatomic, weak) IBOutlet id <GraphDataSource> dataSource;
+@property (nonatomic) CGFloat scale;
+@property (nonatomic) CGPoint origin;
 @end

@@ -11,50 +11,64 @@
 
 @implementation GraphView
 @synthesize dataSource = _dataSource;
+@synthesize scale = _scale;
+@synthesize origin = _origin;
 
-- (id)initWithFrame:(CGRect)frame
-{
+-(CGPoint) origin {
+    if (!_origin.x) _origin = CGPointMake(self.center.x, self.center.y);
+    return _origin;
+}
+
+-(CGFloat) scale {
+    if (!_scale) _scale = self.contentScaleFactor;
+    return _scale;
+}
+
+-(void) setScale:(CGFloat)scale {
+    _scale = scale;
+    if (!_scale) _scale = self.contentScaleFactor;
+    [self setNeedsDisplay];
+}
+
+-(void) setOrigin:(CGPoint)origin {
+    _origin = origin;
+    [self setNeedsDisplay];
+}
+
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-        NSLog(@"initWithFrame in GraphView");
-    }
+    if (self) self.contentMode = UIViewContentModeRedraw;
     return self;
 }
 
-
-- (void)drawRect:(CGRect)rect
-{
-    NSLog(@"drawRect in GraphView");
+- (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(context, 2.5);
     CGPoint startPoint;
     CGPoint endPoint;
     CGRect bounds;
-    CGPoint origin;
-    CGFloat scale;
     
     bounds = self.bounds;
-    scale = [self.dataSource getScale];
-    if (!scale) scale = self.contentScaleFactor;
-    origin = [self.dataSource getOrigin];
-    if (!origin.x) origin = self.center;
-    
     CGContextBeginPath(context);
-    [AxesDrawer drawAxesInRect:bounds originAtPoint:origin scale:scale];
+    [AxesDrawer drawAxesInRect:bounds originAtPoint:self.origin 
+                         scale:self.scale];
     
-    CGFloat xOffeset = origin.x;
-    CGFloat yOffset = origin.y;
+    CGContextSetLineWidth(context, 2.0);
+    CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
+    
+    CGFloat xOffeset = self.origin.x;
+    CGFloat yOffset = self.origin.y;
     CGFloat myWidth = bounds.size.width;
-    CGFloat pixelIncrement = 1.0/self.contentScaleFactor;
+    CGFloat pixelIncrement = 1.0 / self.contentScaleFactor;
     endPoint.x = 0;
-    endPoint.y = [[self.dataSource getY:(-xOffeset / scale)] floatValue];
+    endPoint.y = [[self.dataSource getY:( -xOffeset / self.scale)] floatValue];
     
     for (CGFloat x=0; x <= myWidth; x+=pixelIncrement) {
         startPoint.x = endPoint.x;
         startPoint.y = endPoint.y;
         endPoint.x = x;
-        endPoint.y = yOffset - ([[self.dataSource getY:(x - xOffeset) / scale] floatValue] * scale);
+        endPoint.y = yOffset - ([[self.dataSource getY:(x - xOffeset) / 
+                                  self.scale] floatValue] * self.scale);
         CGContextMoveToPoint(context, startPoint.x, startPoint.y);
         CGContextAddLineToPoint(context, endPoint.x, endPoint.y);
     }
