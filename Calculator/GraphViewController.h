@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "GraphView.h"
+#import "CalculatorViewController.h"
+@class GraphViewController;
 
-@interface GraphViewController : UIViewController
--(void) setProgram : (id) p;
+@interface GraphViewController : UIViewController <UISplitViewControllerDelegate>
+//-(void) setProgram : (id) p;
 -(id) getY : (CGFloat) x;
 -(CGFloat) getScale;
 -(CGPoint) getOrigin;

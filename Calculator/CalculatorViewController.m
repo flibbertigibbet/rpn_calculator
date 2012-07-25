@@ -8,7 +8,6 @@
 
 #import "CalculatorViewController.h"
 #import "CalculatorBrain.h"
-#import "GraphViewController.h"
 
 @interface CalculatorViewController ()
 @property (nonatomic) BOOL inTheMiddleOfEnteringANumber;
@@ -24,6 +23,7 @@
 @synthesize alreadyPressedDecimalPoint = _alreadyPressedDecimalPoint;
 @synthesize brain = _brain;
 @synthesize enteredVariables = _enteredVariables;
+@synthesize delegate = _delegate;
 
 -(NSDictionary *)enteredVariables {
     if (!_enteredVariables) {
@@ -46,6 +46,14 @@
 }
 
 - (IBAction)graphPressed {
+    // TODO
+    NSLog(@"graphPressed");
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        NSLog(@"on iPad");
+        
+        //TODO        
+        [self.delegate setProgram:self.brain.program];
+    }
 }
 
 -(void)setVariable:(NSString *)varName:(double)toValue {
@@ -153,11 +161,21 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:
                         (UIInterfaceOrientation)interfaceOrientation {
-    if (UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
-        return YES;
-    } else {
-        return NO;
-    }
+    return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) ? 
+        UIInterfaceOrientationPortrait : YES;
+}
+
+- (void)awakeFromNib
+{
+    self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
+    [super awakeFromNib];
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    self.delegate = nil;
 }
 
 @end

@@ -42,6 +42,7 @@
 }
 
 - (void)drawRect:(CGRect)rect {
+    NSLog(@"drawRect");
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(context, 2.5);
     CGPoint startPoint;

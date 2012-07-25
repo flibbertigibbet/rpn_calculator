@@ -9,7 +9,7 @@
 #import "GraphViewController.h"
 #import "CalculatorBrain.h"
 
-@interface GraphViewController () <GraphDataSource>
+@interface GraphViewController () <GraphDataSource, RunProtocol>
 @property (nonatomic) id myProgram;
 @property (weak, nonatomic) IBOutlet GraphView *graph;
 @property (nonatomic) NSUserDefaults *defaults;
@@ -25,9 +25,7 @@
 @synthesize graph = _myGraph;
 
 -(NSUserDefaults *) defaults {
-    if (!_defaults) {
-        _defaults = [NSUserDefaults standardUserDefaults];
-    }
+    if (!_defaults) _defaults = [NSUserDefaults standardUserDefaults];
     return _defaults;
 }
 
@@ -52,9 +50,15 @@
 }
 
 - (void) setProgram : (id) program {
+    NSLog(@"setting program");
     self.myProgram = program;
     NSString *progText = [CalculatorBrain descriptionOfProgram:program];
     [self.programDescription setText:progText];
+    self.navigationController.title = [CalculatorBrain 
+                                       descriptionOfProgram:self.myProgram];
+    self.title = [CalculatorBrain 
+                  descriptionOfProgram:self.myProgram];
+    [self.graph setNeedsDisplay];  // draw it
 }
 
 - (IBAction)didPinch:(UIPinchGestureRecognizer *)sender
@@ -77,7 +81,6 @@
 }
 
 - (IBAction)didTap:(UITapGestureRecognizer *)sender {
-    NSLog(@"didTripleTap");
     CGPoint tapPoint = [sender locationInView:self.graph];
     NSLog(@"%@%g%@%g", @"tap x ", tapPoint.x, @" tap y ", tapPoint.y);
     
@@ -112,9 +115,44 @@
     [self.graph setNeedsDisplay]; // tell graph to redraw on rotate
 }
 
+- (void)splitViewController:(UISplitViewController *)svc
+     willHideViewController:(UIViewController *)aViewController
+          withBarButtonItem:(UIBarButtonItem *)barButtonItem
+       forPopoverController:(UIPopoverController *)pc {
+    barButtonItem.title = @"Calculator";
+    self.navigationItem.leftBarButtonItem = barButtonItem;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc
+     willShowViewController:(UIViewController *)aViewController
+  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
+    self.navigationItem.leftBarButtonItem = nil;
+}
+
+-(void)awakeFromNib {
+    [super awakeFromNib];
+    if (self.splitViewController) {
+        // make myself splitViewController's delegate
+        self.splitViewController.delegate = self;
+        // make myself delegate to Calculator to draw graph on its button press
+        UINavigationController *nc = 
+            [self.splitViewController.viewControllers objectAtIndex:0];
+        if ([nc.topViewController isKindOfClass:[CalculatorViewController class]]) {
+            [(CalculatorViewController *)nc.topViewController setDelegate:self];
+        }
+    }
+}
+
 -(void)viewDidLoad {
-    self.programDescription.text = [CalculatorBrain 
+    [super viewDidLoad];
+    if (self.splitViewController) {
+        self.navigationItem.leftBarButtonItem.title = @"Calculator";
+        // make myself data source for graph
+        [self.graph setDataSource:self];
+    } else {
+        self.programDescription.text = [CalculatorBrain 
                                     descriptionOfProgram:self.myProgram];
+    }
 }
 
 - (void)viewDidUnload {
