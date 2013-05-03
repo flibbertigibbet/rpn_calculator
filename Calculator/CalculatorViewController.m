@@ -56,7 +56,7 @@
     }
 }
 
--(void)setVariable:(NSString *)varName:(double)toValue {
+-(void)setVariable:(NSString *)varName toValue:(double)toValue {
     if (toValue) [self.enteredVariables setValue:
                   [NSNumber numberWithDouble:toValue] forKey:varName];
 }

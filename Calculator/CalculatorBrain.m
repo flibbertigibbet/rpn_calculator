@@ -47,12 +47,12 @@ static NSSet *twoOperands;
     NSString *desc;
     if ([program isKindOfClass:[NSArray class]]) stack = [program mutableCopy];
     while (stack.count) [statements addObject:[self 
-                                        descriptionOfTopOfStack:stack:nil]];
+                                        descriptionOfTopOfStack:stack parent:nil]];
     desc = [statements componentsJoinedByString:@", "];
     return desc;
 }
 
-+(NSString *)descriptionOfTopOfStack:(id)stack:(NSString *)parent {
++(NSString *)descriptionOfTopOfStack:(id)stack parent:(NSString *)parent {
     NSString *desc = @"0";
     int numops;
     id holdArg;
@@ -77,15 +77,15 @@ static NSSet *twoOperands;
             
             switch (numops) {
                 case 2:
-                    holdArg = [self descriptionOfTopOfStack:stack:obj];
+                    holdArg = [self descriptionOfTopOfStack:stack parent:obj];
                     desc = [NSString stringWithFormat:@"%@%@%@",
-                            [self descriptionOfTopOfStack:stack:obj], 
+                            [self descriptionOfTopOfStack:stack parent:obj],
                             obj, holdArg];
                     break;
                 case 1:
                     wrap = false;
                     desc = [NSString stringWithFormat:@"%@%@%@%@", obj, @"(",
-                        [self descriptionOfTopOfStack:stack:obj], @")"];
+                        [self descriptionOfTopOfStack:stack parent:obj], @")"];
                     break;
                 default:
                     wrap = false;

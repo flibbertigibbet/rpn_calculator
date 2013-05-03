@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		460BFDF117337FAC0097B2A4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 460BFDF017337FAC0097B2A4 /* Default-568h@2x.png */; };
 		B500DF3115B26BAF005DEAF7 /* GraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B500DF3015B26BAF005DEAF7 /* GraphViewController.m */; };
 		B500DF3415B26C5F005DEAF7 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = B500DF3315B26C5F005DEAF7 /* GraphView.m */; };
 		B500DF3715B273A8005DEAF7 /* AxesDrawer.m in Sources */ = {isa = PBXBuildFile; fileRef = B500DF3615B273A8005DEAF7 /* AxesDrawer.m */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		460BFDF017337FAC0097B2A4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B500DF2F15B26BAF005DEAF7 /* GraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphViewController.h; sourceTree = "<group>"; };
 		B500DF3015B26BAF005DEAF7 /* GraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphViewController.m; sourceTree = "<group>"; };
 		B500DF3215B26C5F005DEAF7 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 		B518C374159ECF0300E0D40B = {
 			isa = PBXGroup;
 			children = (
+				460BFDF017337FAC0097B2A4 /* Default-568h@2x.png */,
 				B518C389159ECF0300E0D40B /* Calculator */,
 				B518C382159ECF0300E0D40B /* Frameworks */,
 				B518C380159ECF0300E0D40B /* Products */,
@@ -148,7 +151,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = Calculator;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = B518C379159ECF0300E0D40B /* Build configuration list for PBXProject "Calculator" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -175,6 +178,7 @@
 				B518C38E159ECF0300E0D40B /* InfoPlist.strings in Resources */,
 				B518C397159ECF0300E0D40B /* iPhoneCalculator.storyboard in Resources */,
 				B526A09115BE064E005CAB01 /* iPadCalculator.storyboard in Resources */,
+				460BFDF117337FAC0097B2A4 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +227,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -238,7 +246,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
@@ -250,6 +258,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
@@ -258,7 +270,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

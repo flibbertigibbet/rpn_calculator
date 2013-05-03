@@ -12,7 +12,6 @@
 @class GraphViewController;
 
 @interface GraphViewController : UIViewController <UISplitViewControllerDelegate>
-//-(void) setProgram : (id) p;
 -(id) getY : (CGFloat) x;
 -(CGFloat) getScale;
 -(CGPoint) getOrigin;
